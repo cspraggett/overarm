@@ -27,11 +27,17 @@ func main() {
 		fmt.Println("Invalid input")
 	}
 
+	originalSize := cutSize
+	fmt.Printf("Original cut size:\t%.3f\n", originalSize)
+
 	cutSize += extraSpace
+	targetSize := cutSize
+
+	fmt.Printf("target cut size:\t%.3f\n", targetSize)
 
 	totals := getResults(sizes, cutSize)
 
-	printResults(totals)
+	printResults(totals, targetSize, originalSize)
 }
 
 func calculateRings(remaingingSize, ringSize float64) (float64, int) {
@@ -55,8 +61,14 @@ func getResults(sizes []float64, cutSize float64) []int {
 	return totals
 }
 
-func printResults(totals []int) {
+func printResults(totals []int, targetSize, originalSize float64) {
+	var totalSize float64
 	for i, t := range totals {
+		totalSize += float64(t) * sizes[i]
 		fmt.Printf("%s:\t%d\n", names[i], t)
 	}
+	fmt.Printf("Total size:\t%.4f\n", totalSize)
+	fmt.Printf("Target size:\t%.4f\n", targetSize)
+	fmt.Printf("difference from target size:\t%f.4\n", totalSize-targetSize)
+	fmt.Printf("difference from original size:\t%.4f\n", totalSize-originalSize)
 }
